@@ -1,0 +1,13 @@
+# Node
+/node_modules
+/package-lock.json
+/npm-debug.log*
+
+# Cypress
+/cypress/videos
+/cypress/screenshots
+/cypress/results/
+
+# Variáveis de Ambiente e Logs (Muito Importante!)
+.env
+*.log
