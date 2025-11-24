@@ -1,8 +1,7 @@
 const { generateUser } = require('../../support/userFactory');
-const mocks = require('../../mocks/authMocks');
+const mocks = require('../../mocks/mocks');
 
 describe('Authentication API Tests', () => {
-
     let userData;
 
     before(() => {
@@ -16,7 +15,7 @@ describe('Authentication API Tests', () => {
             form: true, 
             body: userData
         }, mocks.mockRegisterSuccess).then((res) => {
-            expect(res.status).to.eq(200); 
+            expect(res.status).to.eq(200);
             expect(res.body.message).to.eq('User created!');
         });
     });
@@ -27,10 +26,8 @@ describe('Authentication API Tests', () => {
             url: '/api/getUserDetailByEmail',
             qs: { email: userData.email }
         }, mocks.mockUserDetails).then((res) => {
-
             expect(res.status).to.eq(200);
             expect(res.body.user).to.be.an('object');
-
             if (!Cypress.env('mockMode')) {
                 expect(res.body.user.email).to.eq(userData.email);
             } else {
@@ -50,7 +47,6 @@ describe('Authentication API Tests', () => {
                 mobile_number: '85999999999'
             }
         }, mocks.mockUpdateSuccess).then((res) => {
-
             expect(res.status).to.eq(200);
             expect(res.body.message).to.eq('User updated!');
         });
@@ -66,7 +62,6 @@ describe('Authentication API Tests', () => {
                 password: userData.password
             }
         }, mocks.mockDeleteSuccess).then((res) => {
-
             expect(res.status).to.eq(200);
             expect(res.body.message).to.eq('Account deleted!');
         });

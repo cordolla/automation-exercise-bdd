@@ -1,36 +1,27 @@
+const mocks = require('../../mocks/mocks');
 describe('Product API Tests', () => {
 
     it('GET To Retrieve All Products', () => {
-        cy.request({
+        cy.requestOrMock({
             method: 'GET',
             url: '/api/productsList'
-        }).then((response) => {
-            expect(response.status).to.eq(200);
+        }, mocks.mockGetAllProducts).then((res) => {
 
-            const body = typeof response.body === 'string' ? JSON.parse(response.body) : response.body;
+            expect(res.status).to.eq(200);
 
-            expect(body.responseCode).to.eq(200);
-
-            expect(body.products).to.be.an('array');
-
-            expect(body.products.length).to.be.greaterThan(0);
-
-            cy.log('Primeiro Produto: ' + JSON.stringify(corpo.products[0].name));
-
+            expect(res.body.responseCode).to.eq(200);
+            expect(res.body.products).to.be.an('array');
+            expect(res.body.products.length).to.be.greaterThan(0);
         });
     });
+
     it('POST to all products', () => {
-        cy.request({
+        cy.requestOrMock({
             method: 'POST',
             url: '/api/productsList'
-        }).then((response) => {
-            expect(response.status).to.eq(200);
-
-            const body = typeof response.body === 'string' ? JSON.parse(response.body) : response.body;
-
-            expect(body.responseCode).to.eq(405);
-
-            expect(body.message).to.eq('This request method is not supported.');
+        }, mocks.mockMethodNotAllowed).then((res) => {
+            expect(res.body.responseCode).to.eq(405);
+            expect(res.body.message).to.eq('This request method is not supported.');
         });
     });
 });

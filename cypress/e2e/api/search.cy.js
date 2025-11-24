@@ -1,44 +1,39 @@
+const mock = require('../../mocks/mocks');
+
 describe('Search API Tests', () => {
     it('POST search all Products', () => {
 
         const itemBuscado = 'Dress';
-        cy.request({
+
+        cy.requestOrMock({
             method: 'POST',
-            url: 'https://automationexercise.com/api/searchProduct',
+            url: '/api/searchProduct',
             form: true,
             body: {
                 search_product: itemBuscado
             }
-        }).then((response) => {
-            expect(response.status).to.eq(200);
-
-            const corpo = JSON.parse(response.body);
-
-            expect(corpo.responseCode).to.eq(200);
-            expect(corpo.products).to.be.an('array');
-
-            const nomeProduto = corpo.products[0].name.toLowerCase();
-            expect(nomeProduto).to.include(itemBuscado.toLowerCase());
-
-            cy.log(`Primeiro Produto Encontrado: ${corpo.products[0].name}`);
+        }, mock.mockSearchSuccess).then((res) => {
+            expect(res.status).to.eq(200);
+            expect(res.body.responseCode).to.eq(200);
+            expect(res.body.products).to.be.an('array');
+            expect(res.body.products.length).to.be.greaterThan(0);
+            expect(res.body.products[0].name).to.include(itemBuscado)
         });
     });
 
     it('POST search with empty parameter', () => {
-        cy.request({
+        cy.requestOrMock({
             method: 'POST',
-            url: 'https://automationexercise.com/api/searchProduct',
+            url: '/api/searchProduct',
             form: true,
             failOnStatusCode: false,
-            body: {
-            }
-        }).then((response) => {
-            const corpo = JSON.parse(response.body);
+            body: {}
+        }, mock.mockSearchMissingParam).then((res) => {
 
-            expect(corpo.products).to.be.undefined;
-
-            expect(corpo.responseCode).to.eq(400);
-            expect(corpo.message).to.eq('Bad request, search_product parameter is missing in POST request.');
+            expect(res.status).to.eq(200)
+            expect(res.body.products).to.be.undefined;
+            expect(res.body.responseCode).to.eq(400);
+            expect(res.body.message).to.eq('Bad request, search_product parameter is missing in POST request.');
         });
     });
 });
