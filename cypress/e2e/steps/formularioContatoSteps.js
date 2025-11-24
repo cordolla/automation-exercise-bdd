@@ -1,5 +1,5 @@
-import { And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
-import 'cypress-file-upload';
+const { And, Given, Then, When } = require("cypress-cucumber-preprocessor/steps");
+require('cypress-file-upload');
 
 Given("que eu estou na pagina inicial", () => {
     cy.visit('/');

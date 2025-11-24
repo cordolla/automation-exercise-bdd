@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "cy:api:mock": "npx cypress run --env mockMode=true",
+    "cy:api:real": "npx cypress run --env mockMode=false",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:cadastro": "cypress run --spec 'cypress/e2e/features/cadastro.feature'"
