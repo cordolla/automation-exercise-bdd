@@ -23,14 +23,13 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          command: npx cypress run
-          video: true
 
       - name: Salvar Evidencias
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
           path:
             cypress/videos
             cypress/screenshots
+          if-no-files-found: ignore
