@@ -9,8 +9,7 @@ Cypress.Commands.add('requestOrMock', (requestOptions, mockData) => {
             status: mockData.statusCode,
             statusText: 'OK',
             body: mockData.body,
-            headers: {},
-            duration: 15
+            headers: {}
         });
     } else {
         return cy.request(requestOptions).then((response) => {
